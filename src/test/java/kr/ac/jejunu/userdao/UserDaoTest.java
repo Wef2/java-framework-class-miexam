@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class UserDaoTest {
     @Test
     public void get() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao(new SimpleConnectionMaker());
+        UserDao userDao = new DaoFactory().getUserDao();
         Long id = 1L;
         String name = "자바";
         String password = "11";
@@ -22,7 +22,7 @@ public class UserDaoTest {
 
     @Test
     public void add() throws SQLException, ClassNotFoundException {
-        UserDao userDao = new UserDao(new SimpleConnectionMaker());
+        UserDao userDao = new DaoFactory().getUserDao();
         String name = "스프링";
         String password = "java";
 
