@@ -51,9 +51,9 @@ public class UserDaoTest {
     @Test
     public void update() throws SQLException, ClassNotFoundException {
 
-        Long id = 1L;
-        String name = "스프링";
-        String password = "java";
+        Long id = 3L;
+        String name = "자바";
+        String password = "spring";
 
         User user = new User();
         user.setId(id);
@@ -69,9 +69,16 @@ public class UserDaoTest {
 
     @Test
     public void delete() throws SQLException, ClassNotFoundException {
-        Long id = 1L;
+        String name = "스프링";
+        String password = "java";
+
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        Long id = userDao.add(user);
+
         userDao.delete(id);
-        User user = userDao.get(id);
-        assertEquals(user, null);
+        User mUser = userDao.get(id);
+        assertEquals(mUser, null);
     }
 }
