@@ -20,8 +20,7 @@ public class UserDao {
         User user = null;
         try {
             connection = connectionMaker.getConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE id = ?");
-            preparedStatement.setLong(1, id);
+            preparedStatement = new GetUserStatementStrategy(id).makeStatement(connection);
             resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
                 user = new User();
@@ -67,9 +66,7 @@ public class UserDao {
         Long id = null;
         try {
             connection = connectionMaker.getConnection();
-            preparedStatement = connection.prepareStatement("INSERT INTO user(name, password) values(?, ?)");
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement = new AddUserStatementStrategy(user).makeStatement(connection);
             preparedStatement.executeUpdate();
             id = getLastInsertId(connection);
         } catch (ClassNotFoundException e) {
@@ -102,10 +99,7 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = connectionMaker.getConnection();
-            preparedStatement = connection.prepareStatement("UPDATE user SET name = ?, password = ? WHERE id =? ");
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setLong(3, user.getId());
+            preparedStatement = new UpdateUserStatementStrategy(user).makeStatement(connection);
             preparedStatement.executeUpdate();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -136,8 +130,7 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
         try {
             connection = connectionMaker.getConnection();
-            preparedStatement = connection.prepareStatement("DELETE FROM user WHERE id = ?");
-            preparedStatement.setLong(1, id);
+            preparedStatement = new DeleteUserStatementStrategy(id).makeStatement(connection);
             preparedStatement.executeUpdate();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
