@@ -3,9 +3,14 @@ package kr.ac.jejunu.userdao;
 import java.sql.*;
 
 public class UserDao {
-    public User get(Long id) throws ClassNotFoundException, SQLException {
+
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "root123");
+        return DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "root123");
+    }
+
+    public User get(Long id) throws ClassNotFoundException, SQLException {
+        Connection connection = getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE id = ?");
         preparedStatement.setLong(1, id);
@@ -26,8 +31,7 @@ public class UserDao {
     }
 
     public Long add(User user) throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "root123");
+        Connection connection = getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO user(name, password) values(?, ?)");
         preparedStatement.setString(1, user.getName());
