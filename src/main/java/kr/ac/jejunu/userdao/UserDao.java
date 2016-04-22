@@ -2,12 +2,9 @@ package kr.ac.jejunu.userdao;
 
 import java.sql.*;
 
-public class UserDao {
+public abstract class UserDao {
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost/mydb", "root", "root123");
-    }
+    abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
     public User get(Long id) throws ClassNotFoundException, SQLException {
         Connection connection = getConnection();
